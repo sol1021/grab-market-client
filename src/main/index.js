@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function MainPage() {
   const [products, setProducts] = React.useState([]);
@@ -8,7 +9,7 @@ function MainPage() {
     axios
       .get("https://dc568c98-a89e-4afd-ad6d-5f74648daf81.mock.pstmn.io/product")
       .then(function (result) {
-        const product = result.data.products;
+        const products = result.data.products;
         setProducts(products);
       })
       .catch(function (error) {
@@ -32,17 +33,19 @@ function MainPage() {
           {products.map(function (product, index) {
             return (
               <div className="product-card">
-                <div>
-                  <img className="product-img" src={product.imageUrl} />
-                </div>
-                <div className="product-contents">
-                  <span className="product-name">{product.name}</span>
-                  <span className="product-price">{product.price}원</span>
-                  <div className="product-seller">
-                    <img className="product-avatar" src="images/icons/avatar.png" />
-                    <span>{product.seller}</span>
+                <Link className="product-link" to={`/product/${index}`}>
+                  <div>
+                    <img className="product-img" src={product.imageUrl} />
                   </div>
-                </div>
+                  <div className="product-contents">
+                    <span className="product-name">{product.name}</span>
+                    <span className="product-price">{product.price}원</span>
+                    <div className="product-seller">
+                      <img className="product-avatar" src="images/icons/avatar.png" />
+                      <span>{product.seller}</span>
+                    </div>
+                  </div>
+                </Link>
               </div>
             );
           })}
